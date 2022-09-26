@@ -1,11 +1,11 @@
-import express, { Response, Request } from "express";
+import express from "express";
+import routes from "./routes/auth";
 
 const app = express();
+const port = 3000;
 
-app.get("/hello", (req: Request, res: Response) => {
-  res.send({ message: "Hola Mundo" });
-});
+app.use("/api/auth", routes);
 
-app.listen(3000, () => {
-  console.log("listening on port 3000");
+app.listen(port, () => {
+  console.log(`listening on port ${port}`);
 });
