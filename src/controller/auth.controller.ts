@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 export const createUser = (req: Request, res: Response) => {
   try {
+    console.log(req.body);
     return res.json({
       ok: true,
       msg: "Crear usuario",
