@@ -1,8 +1,10 @@
 import express from "express";
 import routes from "./routes/auth.route";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use("/api/auth", routes);
 
