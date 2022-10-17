@@ -7,8 +7,8 @@ import {
 
 const routes = Router();
 
-routes.route("/new").post(createUser);
-routes.route("/").get(loginUser);
-routes.route("/renew").get(validateJWT);
+routes.post('/new', createUser);
+routes.get('/', loginUser);
+routes.get('/renew', validateJWT);
 
 export default routes;
