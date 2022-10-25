@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Usuario from "../models/usuario.model";
 import bcrypt from "bcryptjs";
+import { generateJWT } from "../helpers/jwt.helper";
 
 export const createUser = async(req: Request, res: Response) => {
   try {
@@ -21,18 +22,17 @@ export const createUser = async(req: Request, res: Response) => {
     const salt = bcrypt.genSaltSync(10);
     dbUser.password = bcrypt.hashSync(password, salt);
 
+    const token = await generateJWT(dbUser.id, dbUser.name);
+
     await dbUser.save();
 
     return res.status(201).json({
       ok: true, 
       uid: dbUser.id,
-      name
+      name,
+      token
     })
 
-    return res.json({
-      ok: true,
-      msg: "Crear usuario",
-    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
