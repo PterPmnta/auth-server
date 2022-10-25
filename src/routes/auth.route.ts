@@ -1,11 +1,11 @@
 import { Router } from "express";
-import {check} from "express-validator"
+import { check } from "express-validator"
 import {
   createUser,
   loginUser,
   validateJWT,
 } from "../controller/auth.controller";
-import { fieldValidate } from "../middlewares/field-validate";
+import { fieldValidate } from "../middlewares/field-validate.middleware";
 
 const routes = Router();
 
