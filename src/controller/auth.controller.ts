@@ -42,14 +42,41 @@ export const createUser = async(req: Request, res: Response) => {
   }
 };
 
-export const loginUser = (req: Request, res: Response) => {
+export const loginUser = async(req: Request, res: Response) => {
+  const {email, password} = req.body
   try {
+
+    const dbUser = await Usuario.findOne({ email });
+    if(!dbUser) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'Credenciales invalidas'
+      })
+    }
+
+    const validPassword = bcrypt.compareSync(password, dbUser.password);
+    if(!validPassword) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'Credenciales invalidas'
+      })
+    }
+
+    const token = await generateJWT(dbUser.id, dbUser.name);
+
     return res.json({
       ok: true,
-      msg: "Inicio de sesion",
+      uid: dbUser.id,
+      name: dbUser.name,
+      token
     });
+
   } catch (error) {
-    return error;
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
   }
 };
 
