@@ -81,11 +81,16 @@ export const loginUser = async(req: Request, res: Response) => {
 };
 
 export const validateJWT = (req: Request, res: Response) => {
-  try {
+  try {   
+
+    const { uid, name } = req;
+
     return res.json({
       ok: true,
-      msg: "Validar JWT",
+      uid,
+      name
     });
+
   } catch (error) {
     return error;
   }
