@@ -80,15 +80,17 @@ export const loginUser = async(req: Request, res: Response) => {
   }
 };
 
-export const validateJWT = (req: Request, res: Response) => {
+export const validateJWT = async (req: Request, res: Response) => {
   try {   
 
     const { uid, name } = req;
+    const token = await generateJWT(uid!, name!);
 
     return res.json({
       ok: true,
       uid,
-      name
+      name,
+      token
     });
 
   } catch (error) {
