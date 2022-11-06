@@ -1,11 +1,12 @@
 import { Router } from "express";
-import {check} from "express-validator"
+import { check } from "express-validator"
 import {
   createUser,
   loginUser,
   validateJWT,
 } from "../controller/auth.controller";
-import { fieldValidate } from "../middlewares/field-validate";
+import { fieldValidate } from "../middlewares/field-validate.middleware";
+import { jwtValidator } from "../middlewares/validate-jwt.middleware";
 
 const routes = Router();
 
@@ -21,6 +22,7 @@ routes.get('/',
           check('password', 'La contraseña es obligatoria. Minimo de 6 caracteres').isLength({min: 6}),
           fieldValidate, 
           loginUser);
-routes.get('/renew', validateJWT);
+
+routes.get('/renew', jwtValidator, validateJWT);
 
 export default routes;
