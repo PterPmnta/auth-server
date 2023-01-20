@@ -17,7 +17,7 @@ routes.post('/new',
             fieldValidate, 
             createUser);
 
-routes.get('/', 
+routes.post('/', 
           check('email', 'El correo es obligatorio').isEmail(),      
           check('password', 'La contraseña es obligatoria. Minimo de 6 caracteres').isLength({min: 6}),
           fieldValidate, 
