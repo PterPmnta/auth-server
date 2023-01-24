@@ -10,9 +10,8 @@ const app = express();
 dbConnection();
 const port = process.env.PORT;
 
-app.use(express.static('src/public'));
-
 app.use(cors());
+app.use(express.static('src/public'));
 app.use(express.json());
 app.use("/api/auth", routes);
 
