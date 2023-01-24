@@ -30,7 +30,8 @@ export const createUser = async(req: Request, res: Response) => {
       ok: true, 
       uid: dbUser.id,
       name,
-      token
+      token,
+      email: dbUser.email
     })
 
   } catch (error) {
@@ -68,6 +69,7 @@ export const loginUser = async(req: Request, res: Response) => {
       ok: true,
       uid: dbUser.id,
       name: dbUser.name,
+      email: dbUser.email,
       token
     });
 
@@ -83,13 +85,24 @@ export const loginUser = async(req: Request, res: Response) => {
 export const validateJWT = async (req: Request, res: Response) => {
   try {   
 
-    const { uid, name } = req;
-    const token = await generateJWT(uid!, name!);
+    const { uid } = req;
+
+    const dbUser = await Usuario.findById(uid);
+
+    if(!dbUser) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'No existe ningun usuario con ese UID'
+      })
+    }
+
+    const token = await generateJWT(uid!, dbUser?.name!);
 
     return res.json({
       ok: true,
       uid,
-      name,
+      name: dbUser?.name,
+      email: dbUser?.email,
       token
     });
 
